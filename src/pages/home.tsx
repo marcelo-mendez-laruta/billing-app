@@ -17,12 +17,10 @@ export function HomePage(props: IHomePageProps) {
   };
   const navigate = useNavigate();
   const [client, setClient] = useState(initialClientState);
-  const [errorMessage, seterrorMessage] = useState(null);
+  const [errorMessage, seterrorMessage] = useState("");
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    console.log(event.target.value);
     setClient({ ...client, id: Number(event.target.value) });
-    console.log(event.target.value);
   };
   const login = () => {
     const { id } = client;
@@ -30,20 +28,38 @@ export function HomePage(props: IHomePageProps) {
       if (typeof response.payload != 'string') {
         setClient(response.payload);
         navigate("/client");
-        //store.getstate().client
       }
       else {
         seterrorMessage(response.payload);
       }
     });
   }
+  const handleloginButtonClick=(event: React.MouseEvent<HTMLButtonElement>)=>{
+    event.preventDefault();
+    login();
+  }
   return (
-    <>
-      <p>{props.WelcomeMessage}</p>
-      <input type="number" value={client.id} onChange={handleChange} />
-      <p>{client.name === 'No Client' ? '' : client.name}</p>
-      {errorMessage ?? <p>{errorMessage}</p>}
-      <button onClick={login}>Sign In</button>
-    </>
+    <section className="hero is-fullheight">
+      <div className="hero-body has-text-centered">
+        <div className="container">
+          <div className="columns">
+            <div className="column is-4 is-offset-4">
+              <div className="box has-background-primary-light">
+                <p className="subtitle is-5 has-text-weight-bold">{props.WelcomeMessage}</p>
+                <p className="subtitle is-5 has-text-primary">Please enter your client ID.</p>
+                <div className="block">
+                  <input className="input" type="number" value={client.id} onChange={handleChange} />
+                </div>
+                {errorMessage!==""? (<div className="block"><div className="notification is-danger has-text-white">{errorMessage}</div></div>):(<></>)}
+                <div className="block">
+                  <button className="button is-info is-fullwidth" onClick={e => handleloginButtonClick(e)}>Sign In</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

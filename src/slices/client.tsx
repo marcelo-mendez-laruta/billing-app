@@ -4,9 +4,7 @@ import responseInterface from '../interfaces/responseInterface';
 import clientService from '../services/clientServices'
 const initialState: clientInterface = {
     id: 0,
-    name: "No Client",
-    createdOn: new Date(),
-    updatedOn: new Date(),
+    name: "No Client"
 
 };
 export const getClientData = createAsyncThunk(
@@ -18,12 +16,9 @@ export const getClientData = createAsyncThunk(
                 return response.data;
             }
             else{
-                console.log(response);
                 let errorResponse:clientInterface={
                     id: 0,
-                    name: response.data.detail ?? 'An unexpected error occurred',
-                    createdOn: new Date(),
-                    updatedOn: new Date()
+                    name: response.data.detail ?? 'An unexpected error occurred'
                 };
                 return errorResponse;
             }

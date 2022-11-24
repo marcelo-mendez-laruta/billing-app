@@ -1,6 +1,7 @@
 import axios from "axios";
 import http from "../http-common";
 import billInterface from "../interfaces/billInterface";
+import responseInterface from "../interfaces/responseInterface";
 
 
 const pendingBills = async (ClientId: number) => {
@@ -15,11 +16,14 @@ const pendingBills = async (ClientId: number) => {
       },
     );
     console.log('response status is: ', status);
-    return data;
+    let response: responseInterface = {
+      data: data,
+      status: status
+    };
+    return response;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.log('error message: ', error.message);
-      return error.message;
+      return error.response?.data.detail;
     } else {
       console.log('unexpected error: ', error);
       return 'An unexpected error occurred';
@@ -130,11 +134,14 @@ const billingHistory = async (ClientId: number) => {
       },
     );
     console.log('response status is: ', status);
-    return data;
+    let response: responseInterface = {
+      data: data,
+      status: status
+    };
+    return response;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.log('error message: ', error.message);
-      return error.message;
+      return error.response?.data.detail;
     } else {
       console.log('unexpected error: ', error);
       return 'An unexpected error occurred';

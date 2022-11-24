@@ -3,7 +3,7 @@ import http from "../http-common";
 import responseInterface from "../interfaces/responseInterface";
 const getClientData = async (ClientId: number) => {
   try {
-    const { data, status }=await http.get(
+    const { data, status } = await http.get(
       'Client',
       {
         headers: {

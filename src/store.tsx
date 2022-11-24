@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import clientReducer from './slices/client';
+import billReducer from './slices/bill';
 
 const reducer = {
-  client: clientReducer
+  client: clientReducer,
+  bills: billReducer
 }
 
 const store = configureStore({
