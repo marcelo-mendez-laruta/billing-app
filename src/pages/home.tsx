@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getClientData } from '../slices/client';
+import { getClientData, setDefaultClientData } from '../slices/client';
 import store from '../store';
 
 export interface IHomePageProps {
@@ -18,6 +18,11 @@ export function HomePage(props: IHomePageProps) {
   const navigate = useNavigate();
   const [client, setClient] = useState(initialClientState);
   const [errorMessage, seterrorMessage] = useState("");
+  React.useEffect(() => {
+    store.dispatch(setDefaultClientData()).then((response: any) => {
+      setClient(response.payload);
+    });
+  }, []);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setClient({ ...client, id: Number(event.target.value) });
@@ -34,7 +39,7 @@ export function HomePage(props: IHomePageProps) {
       }
     });
   }
-  const handleloginButtonClick=(event: React.MouseEvent<HTMLButtonElement>)=>{
+  const handleloginButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     login();
   }
@@ -50,7 +55,7 @@ export function HomePage(props: IHomePageProps) {
                 <div className="block">
                   <input className="input" type="number" value={client.id} onChange={handleChange} />
                 </div>
-                {errorMessage!==""? (<div className="block"><div className="notification is-danger has-text-white">{errorMessage}</div></div>):(<></>)}
+                {errorMessage !== "" ? (<div className="block"><div className="notification is-danger has-text-white">{errorMessage}</div></div>) : (<></>)}
                 <div className="block">
                   <button className="button is-info is-fullwidth" onClick={e => handleloginButtonClick(e)}>Sign In</button>
                 </div>

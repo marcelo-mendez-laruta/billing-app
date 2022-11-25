@@ -27,12 +27,21 @@ export const getClientData = createAsyncThunk(
         }
     }
 );
+export const setDefaultClientData = createAsyncThunk(
+    'client/setDefaultClientData',
+    () => {
+        return initialState;
+    }
+);
 const clientSlice = createSlice({
     name: 'getClientData',
     initialState: initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getClientData.fulfilled, (state, action) => {
+            return action.payload;
+        });
+        builder.addCase(setDefaultClientData.fulfilled, (state, action) => {
             return action.payload;
         });
     },

@@ -2,6 +2,9 @@ import axios from "axios";
 import http from "../http-common";
 import responseInterface from "../interfaces/responseInterface";
 const getClientData = async (ClientId: number) => {
+  if(ClientId == 0){
+    return 'No client';
+  }
   try {
     const { data, status } = await http.get(
       'Client',

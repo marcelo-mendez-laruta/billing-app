@@ -42,11 +42,14 @@ const searchBillsByCategory = async (Category: string) => {
       },
     );
     console.log('response status is: ', status);
-    return data;
+    let response: responseInterface = {
+      data: data,
+      status: status
+    };
+    return response;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.log('error message: ', error.message);
-      return error.message;
+      return error.response?.data.detail;
     } else {
       console.log('unexpected error: ', error);
       return 'An unexpected error occurred';
@@ -65,11 +68,14 @@ const payBill = async (Bill: billInterface) => {
       },
     );
     console.log('response status is: ', status);
-    return data;
+    let response: responseInterface = {
+      data: data,
+      status: status
+    };
+    return response;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.log('error message: ', error.message);
-      return error.message;
+      return error.response?.data.detail;
     } else {
       console.log('unexpected error: ', error);
       return 'An unexpected error occurred';
@@ -78,21 +84,24 @@ const payBill = async (Bill: billInterface) => {
 }
 const payBillById = async (BillId: number) => {
   try {
-    const { data, status } = await http.post<any>(
+    const { data, status } = await http.get<any>(
       'billing/payById',
-      BillId,
       {
         headers: {
           Accept: 'application/json',
         },
+        params: { Id: BillId }
       },
     );
     console.log('response status is: ', status);
-    return data;
+    let response: responseInterface = {
+      data: data,
+      status: status
+    };
+    return response;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.log('error message: ', error.message);
-      return error.message;
+      return error.response?.data.detail;
     } else {
       console.log('unexpected error: ', error);
       return 'An unexpected error occurred';
@@ -111,11 +120,14 @@ const createNewBill = async (Bill: billInterface) => {
       },
     );
     console.log('response status is: ', status);
-    return data;
+    let response: responseInterface = {
+      data: data,
+      status: status
+    };
+    return response;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.log('error message: ', error.message);
-      return error.message;
+      return error.response?.data.detail;
     } else {
       console.log('unexpected error: ', error);
       return 'An unexpected error occurred';

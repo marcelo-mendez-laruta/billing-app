@@ -9,7 +9,6 @@ export const getPendingBills = createAsyncThunk(
         let response: string | responseInterface = await billingService.pendingBills(clientId);
         if (typeof response != 'string') {
             if (response.status === 200) {
-                console.log(response.data);
                 return response.data;
             }
             else {
@@ -36,6 +35,54 @@ export const getBillsHistory = createAsyncThunk(
         }
     }
 );
+export const createNewBill = createAsyncThunk(
+    'bills/createNewBill',
+    async (newBill: billInterface) => {
+        let response: string | responseInterface = await billingService.createNewBill(newBill);
+        if (typeof response != 'string') {
+            if (response.status === 200) {
+                return response.data;
+            }
+            else {
+                return response.status;
+            }
+        } else {
+            return response;
+        }
+    }
+);
+export const searchBillsByCategory = createAsyncThunk(
+    'bills/searchBillsByCategory',
+    async (searchCriteria: string) => {
+        let response: string | responseInterface = await billingService.searchBillsByCategory(searchCriteria);
+        if (typeof response != 'string') {
+            if (response.status === 200) {
+                return response.data;
+            }
+            else {
+                return response.status;
+            }
+        } else {
+            return response;
+        }
+    }
+);
+export const payBillById = createAsyncThunk(
+    'bills/payBillById',
+    async (billId: number) => {
+        let response: string | responseInterface = await billingService.payBillById(billId);
+        if (typeof response != 'string') {
+            if (response.status === 200) {
+                return response.data;
+            }
+            else {
+                return response.status;
+            }
+        } else {
+            return response;
+        }
+    }
+);
 const billSlice = createSlice({
     name: 'BillsData',
     initialState: initialState,
@@ -45,6 +92,12 @@ const billSlice = createSlice({
             return action.payload;
         });
         builder.addCase(getBillsHistory.fulfilled, (state, action) => {
+            return action.payload;
+        });
+        builder.addCase(createNewBill.fulfilled, (state, action) => {
+            return [...action.payload];
+        });
+        builder.addCase(searchBillsByCategory.fulfilled, (state, action) => {
             return action.payload;
         });
     },

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TableComponent } from '../components/bills/Table';
+import { BillsTableComponent } from '../components/bills/billsTable';
+import { NewBillComponent } from '../components/bills/newBill';
+import { SearchByCategoryComponent } from '../components/bills/searchByCategory';
 import billInterface from '../interfaces/billInterface';
 import { getBillsHistory, getPendingBills } from '../slices/bill';
 import store from '../store';
@@ -45,8 +47,8 @@ export function ClientPage() {
   };
   const fetchBillsHistory = () => {
     const { id } = store.getState().client;
-    store.dispatch(getBillsHistory(id)).then((response: any) => {      
-      if (typeof response.payload != 'string' ) {
+    store.dispatch(getBillsHistory(id)).then((response: any) => {
+      if (typeof response.payload != 'string') {
         setBills(response.payload);
         setErrorMessage('');
       }
@@ -59,11 +61,13 @@ export function ClientPage() {
   const renderSwitch = (tab: number) => {
     switch (tab) {
       case 1:
-        return (<TableComponent bills={Bills} errorMessage={errorMessage} hasActions={true}/>);
+        return (<BillsTableComponent bills={Bills} errorMessage={errorMessage} hasActions={true} isSearchMode={false}/>);
       case 2:
-        return (<TableComponent bills={Bills} errorMessage={errorMessage} hasActions={false}/>);
+        return (<BillsTableComponent bills={Bills} errorMessage={errorMessage} hasActions={false} isSearchMode={false}/>);
       case 3:
-        return (<div>Tab 3</div>);
+        return (<NewBillComponent />);
+      case 4:
+        return (<SearchByCategoryComponent />);
     };
   };
   return (
@@ -77,6 +81,7 @@ export function ClientPage() {
             <li className={activeTab === 1 ? "is-active" : ""}><a href="#/" onClick={e => handlePendingBillsClick(e)}>Pending Bills</a></li>
             <li className={activeTab === 2 ? "is-active" : ""}><a href="#/" onClick={e => handleBillsHistoryClick(e)}>History</a></li>
             <li className={activeTab === 3 ? "is-active" : ""}><a href="#/" onClick={() => handleActiveTab(3)}>[ADMIN] Create a bill</a></li>
+            <li className={activeTab === 4 ? "is-active" : ""}><a href="#/" onClick={() => handleActiveTab(4)}>[ADMIN] Search by category</a></li>
           </ul>
         </div>
         {

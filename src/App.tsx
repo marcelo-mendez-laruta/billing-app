@@ -7,7 +7,7 @@ function App() {
     <div className="container is-fluid">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage WelcomeMessage={"Hello, welcome to Billing App"} />} />
+          <Route path="/" element={<HomePage WelcomeMessage={"Hello and welcome to Billing App"} />} />
           <Route path="/client" element={<ClientPage/>} />
         </Routes>
       </BrowserRouter>
